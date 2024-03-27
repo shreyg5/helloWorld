@@ -1,35 +1,40 @@
 /*Changing the background color to a light shade of red and formatting the font to Verdana family*/
 body{
-    background-color: #E08B8B;
+    background-color: lightgrey;
     font-family: Verdana, serif;
 }
 
 /*styling heading 1 with dark red color text, 36 pixels font size, left margin set to 2 pixels, and underlined*/
 h1 {
-    color: darkred;
+    color: darkblue;
     font-size: 36px;
-    margin-left: 2px;
-    text-decoration: underline;
+    font-weight: bold;
+    padding: 2px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 /*styling heading 2 with beige color text, 24 pixels font size, and left margin set to 2 pixels*/
 h2 {
-    color: #F8E795;
+    color: cornflowerblue;
+    font-weight: bold;
     font-size: 24px;
-    margin-left: 2px;
+    margin-left: 5px;
 }
 
 /*styling heading 3 with wheat color text, 21 pixels font size, and left margin set to 2 pixels*/
 h3{
-    color: wheat;
+    color: dodgerblue;
+    font-weight: bold;
     font-size: 21px;
-    margin-left: 2px;
+    margin-left: 5px;
 }
 
 /*styling all paragraphs with size 1em and black color text*/
 p {
     color: black;
     font-size: 1em;
+    margin-left: 5px;
 }
 
 /*styling paragraph with id attribute with 1em size text in italic style*/
@@ -40,7 +45,7 @@ p {
 
 /*styling custom class rule with dark red italic bold text*/
 .class-rule {
-    color: darkred;
+    color: darkslateblue;
     font-style: italic;
     font-weight: bold;
 }
@@ -49,7 +54,7 @@ p {
 table, td, th {
     border-style: solid;
     border-width: 3px;
-    border-color: #990000;
+    border-color: darkslateblue;
     border-collapse: collapse;
 }
 
