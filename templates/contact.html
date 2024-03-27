@@ -15,7 +15,7 @@
             <p><a href="{{ url_for('contact')}}">Complete form again</a></p>
         </div>
     {% else %}
-        <form method="POST" action="{{ url_for('contact') }}" method="post">
+        <form method="POST" action="{{ url_for('contact') }}">
             <div class="mb-3 row">
                 <label for="first_name" class="col-sm-3 col-form-label">First Name</label>
                 <div class="col-sm-9">
