@@ -14,10 +14,11 @@ class Student(db.Model):
     gpa = db.Column(db.Float, nullable=False)
     is_honors = db.Column(db.Boolean, nullable=False)
 
-    def __init__(self, first_name, last_name, major_id, birth_date, is_honors):
+    def __init__(self, first_name, last_name, major_id, email, birth_date, is_honors):
         self.first_name = first_name
         self.last_name = last_name
         self.major_id = major_id
+        self.email = email
         self.birth_date = birth_date
         self.num_credits_completed = 0
         self.gpa = 0.0
