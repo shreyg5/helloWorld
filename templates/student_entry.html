@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block page_title %}
@@ -50,6 +49,14 @@
         <br>{{ student['birth_date'].strftime('%m/%d/%Y') }}
     {% endif %}
   </div>
+<div class="col-md-4">
+    <label for="email" class="form-label"><strong>Email</strong></label>
+    {% if action and action in ['create', 'update'] %}
+    <input type="email" class="form-control" id="email" name="email" value="{{ student['email'] if student else '' }}" required maxlength="100">
+    {% else %}
+        <br>{{ student['email'] }}
+    {% endif %}
+</div>
 
   <div class="col-md-4">
     <label for="major_id" class="form-label"><strong>Major</strong></label>
@@ -69,14 +76,6 @@
     {% endif %}
   </div>
 
-  <div class="col-md-4">
-    <label for="email" class="form-label"><strong>Email</strong></label>
-    {% if action and action in ['create', 'update'] %}
-    <input type="text" class="form-control" id="email" name="email" value="{{ student['email'] if student else '' }}" required>
-    {% else %}
-        <br>{{ student['email'] }}
-    {% endif %}
-  </div>
 
   {% if action and action in ['read', 'update'] %}
   <div class="col-md-4">
