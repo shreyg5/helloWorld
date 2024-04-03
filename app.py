@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'beyond_course_scope'
 db.init_app(app)
 
-
+# Route to view all students
 @app.route('/student/view')
 def student_view_all():
     students = Student.query.outerjoin(Major, Student.major_id == Major.major_id) \
@@ -20,35 +20,29 @@ def student_view_all():
         .all()
     return render_template('student_view_all.html', students=students)
 
-
+# Route to view a specific student by ID
 @app.route('/student/view/<int:student_id>')
 def student_view(student_id):
     student = Student.query.filter_by(student_id=student_id).first()
-    majors = Major.query.order_by(Major.major) \
-        .order_by(Major.major) \
-        .all()
+    majors = Major.query.order_by(Major.major).all()
 
     if student:
         return render_template('student_entry.html', student=student, majors=majors, action='read')
-
     else:
         flash(f'Student attempting to be viewed could not be found!', 'error')
         return redirect(url_for('student_view_all'))
 
-
+# Route to create a new student
 @app.route('/student/create', methods=['GET', 'POST'])
 def student_create():
     if request.method == 'GET':
-        majors = Major.query.order_by(Major.major) \
-            .order_by(Major.major) \
-            .all()
+        majors = Major.query.order_by(Major.major).all()
         return render_template('student_entry.html', majors=majors, action='create')
     elif request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         major_id = request.form['major_id']
         email = request.form['email']
-
         birth_date = request.form['birth_date']
         is_honors = True if 'is_honors' in request.form else False
 
@@ -62,18 +56,15 @@ def student_create():
     flash('Invalid action. Please try again.', 'error')
     return redirect(url_for('student_view_all'))
 
-
+# Route to update a student
 @app.route('/student/update/<int:student_id>', methods=['GET', 'POST'])
 def student_edit(student_id):
     if request.method == 'GET':
         student = Student.query.filter_by(student_id=student_id).first()
-        majors = Major.query.order_by(Major.major) \
-            .order_by(Major.major) \
-            .all()
+        majors = Major.query.order_by(Major.major).all()
 
         if student:
             return render_template('student_entry.html', student=student, majors=majors, action='update')
-
         else:
             flash(f'Student attempting to be edited could not be found!', 'error')
 
@@ -86,8 +77,6 @@ def student_edit(student_id):
             student.major_id = request.form['major_id']
             student.email = request.form['email']
             student.birthdate = dt.strptime(request.form['birth_date'], '%Y-%m-%d')
-            student.num_credits_completed = request.form['num_credits_completed']
-            student.gpa = request.form['gpa']
             student.is_honors = True if 'is_honors' in request.form else False
 
             db.session.commit()
@@ -99,7 +88,7 @@ def student_edit(student_id):
 
     return redirect(url_for('student_view_all'))
 
-
+# Route to delete a student
 @app.route('/student/delete/<int:student_id>')
 def student_delete(student_id):
     student = Student.query.filter_by(student_id=student_id).first()
@@ -113,11 +102,10 @@ def student_delete(student_id):
 
     return redirect(url_for('student_view_all'))
 
-
+# Default route, redirects to view all students
 @app.route('/')
 def home():
     return redirect(url_for('student_view_all'))
-
 
 if __name__ == '__main__':
     app.run()
