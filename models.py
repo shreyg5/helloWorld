@@ -1,10 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+
+# Initializing SQLAlchemy instance
 db = SQLAlchemy()
 
+# Student Model
 class Student(db.Model):
     __tablename__ = "student"
 
+    # Columns for student table
     student_id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
@@ -16,6 +20,7 @@ class Student(db.Model):
     is_honors = db.Column(db.Boolean, nullable=False)
 
     def __init__(self, first_name, last_name, email, major_id, birth_date, is_honors):
+        # Constructor for Student class
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -26,25 +31,31 @@ class Student(db.Model):
         self.is_honors = is_honors
 
     def __repr__(self):
+        # Representation of Student object
         return f"{self.first_name} {self.last_name}"
 
+# Major Model
 class Major(db.Model):
     __tablename__ = "major"
 
+    # Columns for major table
     major_id = db.Column(db.Integer, primary_key=True)
     major = db.Column(db.String(30), nullable=False)
     students = db.relationship('Student', backref='students')
 
     def __init__(self, major):
+        # Constructor for Major class
         self.major = major
 
     def __repr__(self):
+        # Representation of Major object
         return f"{self.major}"
 
-
+# User Model
 class User(UserMixin, db.Model):
     __tablename__ = "user"
 
+    # Columns for user table
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
     first_name = db.Column(db.String(30))
@@ -54,6 +65,7 @@ class User(UserMixin, db.Model):
     role = db.Column(db.String(20))
 
     def __init__(self, username, first_name, last_name, email, password, role='PUBLIC'):
+        # Constructor for User class
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
@@ -61,9 +73,10 @@ class User(UserMixin, db.Model):
         self.password = password
         self.role = role
 
-    # Function for flask_login manager to provider a user ID to know who is logged in
+    # Function for flask_login manager to provide a user ID to know who is logged in
     def get_id(self):
-        return(self.user_id)
+        return self.user_id
 
     def __repr__(self):
+        # Representation of User object
         return f"{self.first_name} {self.last_name} ({self.username})"
