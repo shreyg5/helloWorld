@@ -23,7 +23,6 @@
 {% endblock %}
 
 {% block page_content %}
-
 <!-- Form for adding/updating/viewing student -->
 <form class="row g-3"
       action="{{ url_for('student_edit', student_id=student['student_id']) if student else url_for('student_create') }}" method="post">
@@ -142,7 +141,3 @@
         {% else %}
         Return
         {% endif %}
-    </a>
-  </div>
-</form>
-{% endblock %}
