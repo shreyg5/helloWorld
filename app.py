@@ -224,9 +224,7 @@ def page_not_found(e):
 @login_required
 @role_required(['MANAGER', 'ADMIN'])
 def training():
-    your_name = "Joe"
-    your_email = "your.email@example.com"  # Replace with your email
-    return render_template('training.html', your_name=your_name, your_email=your_email)
+    return render_template('training.html')
 
 
 if __name__ == '__main__':
