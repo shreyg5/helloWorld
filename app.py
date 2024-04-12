@@ -210,7 +210,6 @@ def student_delete(student_id):
 @app.route('/error')
 def error():
     # Generic error handler to handle various site errors
-    # Before routing to this route, ensure flash function is used
     return render_template('error.html')
 
 
@@ -224,6 +223,7 @@ def page_not_found(e):
 @login_required
 @role_required(['MANAGER', 'ADMIN'])
 def training():
+    # training handler for certain roles
     return render_template('training.html')
 
 
