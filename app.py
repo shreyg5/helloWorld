@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = 'beyond_course_scope'
 db.init_app(app)
 
 login_manager = LoginManager()
-login_manager.login_view = 'login' # default login route
+login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 @login_manager.user_loader
@@ -34,7 +34,7 @@ def login():
     default_student_route_function = 'student_view'
 
     if request.method == 'GET':
-        # Determine where to redirect user if they are already logged in
+        # Redirect user if they are already logged in
         if current_user and current_user.is_authenticated:
             if current_user.role in ['MANAGER', 'ADMIN']:
                 return redirect(url_for(default_route_function))
@@ -51,7 +51,7 @@ def login():
 
         user = User.query.filter_by(username=username).first()
 
-        # Validate user credentials and redirect them to initial destination
+        # Redirect user them to initial destination
         if user and check_password_hash(user.password, password):
             login_user(user)
 
@@ -145,7 +145,6 @@ def student_create():
         flash(f'{first_name} {last_name} was successfully added!', 'success')
         return redirect(url_for('student_view_all'))
 
-    # Address issue where unsupported HTTP request method is attempted
     flash(f'Invalid request. Please contact support if this problem persists.', 'error')
     return redirect(url_for('student_view_all'))
 
@@ -186,7 +185,7 @@ def student_edit(student_id):
 
         return redirect(url_for('student_view_all'))
 
-    # Address issue where unsupported HTTP request method is attempted
+    # Unsupported request method is attempted
     flash(f'Invalid request. Please contact support if this problem persists.', 'error')
     return redirect(url_for('student_view_all'))
 
@@ -209,12 +208,13 @@ def student_delete(student_id):
 
 @app.route('/error')
 def error():
-    # Generic error handler to handle various site errors
+    # Generic error handler
     return render_template('error.html')
 
 
 @app.errorhandler(404)
 def page_not_found(e):
+    # 404 error handler
     flash(f'Sorry! You are trying to access a page that does not exist. Please contact support if this problem persists.', 'error')
     return render_template('404.html'), 404
 
