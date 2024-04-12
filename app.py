@@ -23,12 +23,12 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/')
+@app.route('/') # general login route
 def home():
     return redirect(url_for('login'))
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST']) # login information
 def login():
     default_route_function = 'student_view_all'
     default_student_route_function = 'student_view'
@@ -67,7 +67,7 @@ def login():
     return redirect(url_for('login'))
 
 
-@app.route('/logout')
+@app.route('/logout') # logout
 @login_required
 def logout():
     logout_user()
@@ -75,7 +75,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/student/view')
+@app.route('/student/view') # View student information handler for certain roles
 @login_required
 @role_required(['ADMIN', 'MANAGER'])
 def student_view_all():
@@ -86,7 +86,7 @@ def student_view_all():
     return render_template('student_view_all.html', students=students)
 
 
-@app.route('/student/view/<int:student_id>')
+@app.route('/student/view/<int:student_id>') # View student information handler for all roles
 @login_required
 @role_required(['ADMIN', 'MANAGER', 'STUDENT'])
 def student_view(student_id):
@@ -114,13 +114,12 @@ def student_view(student_id):
             flash(f'Your record could not be located. Please contact advising.', 'error')
             return redirect(url_for('error'))
 
-    # This point should never be reached as all roles are accounted for. Adding defensive programming as a double check.
     else:
         flash(f'Invalid request. Please contact support if this problem persists.', 'error')
         return render_template('error.html')
 
 
-@app.route('/student/create', methods=['GET', 'POST'])
+@app.route('/student/create', methods=['GET', 'POST']) # Create student information handler for certain roles
 @login_required
 @role_required(['ADMIN', 'MANAGER'])
 def student_create():
@@ -149,7 +148,7 @@ def student_create():
     return redirect(url_for('student_view_all'))
 
 
-@app.route('/student/update/<int:student_id>', methods=['GET', 'POST'])
+@app.route('/student/update/<int:student_id>', methods=['GET', 'POST'])  # update student information handler for certain roles
 @login_required
 @role_required(['ADMIN', 'MANAGER'])
 def student_edit(student_id):
@@ -190,7 +189,7 @@ def student_edit(student_id):
     return redirect(url_for('student_view_all'))
 
 
-@app.route('/student/delete/<int:student_id>')
+@app.route('/student/delete/<int:student_id>')   # delete student information handler for admin roles
 @login_required
 @role_required(['ADMIN'])
 def student_delete(student_id):
@@ -206,24 +205,21 @@ def student_delete(student_id):
     return redirect(url_for('student_view_all'))
 
 
-@app.route('/error')
+@app.route('/error')  # Generic error handler
 def error():
-    # Generic error handler
     return render_template('error.html')
 
 
-@app.errorhandler(404)
+@app.errorhandler(404)    # 404 error handler
 def page_not_found(e):
-    # 404 error handler
     flash(f'Sorry! You are trying to access a page that does not exist. Please contact support if this problem persists.', 'error')
     return render_template('404.html'), 404
 
 
-@app.route('/training')
+@app.route('/training')    # training handler for certain roles
 @login_required
 @role_required(['MANAGER', 'ADMIN'])
 def training():
-    # training handler for certain roles
     return render_template('training.html')
 
 
